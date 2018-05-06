@@ -1,0 +1,11 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+  <h1>Stocks</h1>
+  <ul class="list-group">
+    {% for stock in stocks %}
+    <li class="list-group-item"><a href="stock/{{stock.id}}">{{stock.ticker}}</a>
+      <br>{{stock.start_date}} - {{stock.end_date}}</li>
+    {% endfor %}
+  </ul>
+{% endblock %}
