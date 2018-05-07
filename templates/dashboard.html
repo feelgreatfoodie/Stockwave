@@ -1,7 +1,8 @@
 {% extends 'layout.html' %}
 
 {% block body %}
-  <h1>Dashboard <small> Welcome {{session.username}}</small></h1>
+<div class='container container-fluid'>
+  <h1>Welcome {{session.username}}</h1>
   <a class="btn btn-success" href="/add_stock"> Add Stock</a>
   <hr>
   <table class="table table-striped">
@@ -29,4 +30,5 @@
       </tr>
     {% endfor %}
   </table>
+</div>
 {% endblock %}

@@ -1,6 +1,7 @@
 {% extends 'layout.html' %}
 
 {% block body %}
+<div class="container container-fluid">
   <h1>Stocks</h1>
   <ul class="list-group">
     {% for stock in stocks %}
@@ -8,4 +9,5 @@
       <br>{{stock.start_date}} - {{stock.end_date}}</li>
     {% endfor %}
   </ul>
+</div>
 {% endblock %}

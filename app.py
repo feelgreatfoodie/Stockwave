@@ -5,22 +5,19 @@ from wtforms import Form, DateField, StringField, TextAreaField, PasswordField, 
 from passlib.hash import sha256_crypt
 from functools import wraps
 import datetime
-
-# BEGIN EXPERIMENTAL SECTION **************************
 import matplotlib
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt, mpld3
+import matplotlib.dates as mdates
 import pandas_datareader
 import pandas_datareader.data as web
 from io import BytesIO
-import random
-
 import seaborn as sns
 from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
 from matplotlib.figure import Figure
 from matplotlib.dates import DateFormatter
-# END EXPERIMENTAL SECTION******************************
+
 app = Flask(__name__)
 
 # Config MySQL
@@ -60,7 +57,26 @@ def stock(id):
     stock = cur.fetchone()
     cur.close()
 
-    return render_template('stock.html', data=stock)
+    print(stock)
+
+    data = web.DataReader(stock['ticker'], 'morningstar', stock['start_date'], stock['end_date'])
+    df = data.reset_index()
+    fig = Figure()
+    axis = fig.add_subplot(1, 1, 1)
+    x_attribute = 'Date'
+    y_attribute = 'Close'
+
+    sns.stripplot(data=df, x=x_attribute, y=y_attribute, ax=axis, jitter=True)
+    axis.set_xlabel(x_attribute)
+    axis.set_ylabel(y_attribute)
+    canvas = FigureCanvas(fig)
+    output = BytesIO()
+    canvas.print_png(output)
+    response = make_response(output.getvalue())
+    response.mimetype = 'image/png'
+    return response
+
+    # return render_template('stock.html', data=stock)
 
 class RegisterForm(Form):
     name = StringField('Name', [validators.length(min=1, max=50)])
@@ -185,13 +201,12 @@ def add_stock():
         cur.close()
 
         data = web.DataReader(ticker, 'morningstar', start_date, end_date)
-
         df = data.reset_index()
         fig = Figure()
         axis = fig.add_subplot(1, 1, 1)
-        # x_attribute = df.index.names[1]
         x_attribute = 'Date'
-        y_attribute = 'High'
+        y_attribute = 'Close'
+
         sns.stripplot(data=df, x=x_attribute, y=y_attribute, ax=axis, jitter=True)
         axis.set_xlabel(x_attribute)
         axis.set_ylabel(y_attribute)
@@ -222,6 +237,7 @@ def edit_stock(id):
     if request.method == 'POST' and form.validate():
         ticker = request.form['ticker']
         start_date = request.form['start_date']
+        end_date = request.form['end_date']
 
         cur = mysql.connection.cursor()
         cur.execute("UPDATE stocks SET ticker=%s, start_date=%s, end_date=%s WHERE id = %s", (ticker, start_date, end_date, id))
@@ -242,7 +258,7 @@ def delete_stock(id):
     mysql.connection.commit()
     cur.close()
 
-    flash('stock Deleted', 'success')
+    flash('Stock Deleted', 'success')
     return redirect(url_for('dashboard'))
 
 if __name__ == '__main__':
