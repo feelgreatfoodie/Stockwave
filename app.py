@@ -57,8 +57,6 @@ def stock(id):
     stock = cur.fetchone()
     cur.close()
 
-    print(stock)
-
     data = web.DataReader(stock['ticker'], 'morningstar', stock['start_date'], stock['end_date'])
     df = data.reset_index()
     fig = Figure()

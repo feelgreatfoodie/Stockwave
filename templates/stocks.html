@@ -1,8 +1,8 @@
 {% extends 'layout.html' %}
 
 {% block body %}
-<div class="container container-fluid">
-  <h1>Stocks</h1>
+<div class="container">
+  <h3>&nbsp;&nbsp;Previously Generated Charts</h3>
   <ul class="list-group">
     {% for stock in stocks %}
     <li class="list-group-item"><a href="stock/{{stock.id}}">{{stock.ticker}}</a>

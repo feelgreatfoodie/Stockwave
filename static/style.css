@@ -4,6 +4,13 @@ body, .navbar a, footer a {
   font-weight: bold;
 }
 
+body {
+  padding-bottom: 70px;
+  height: 100%;
+}
+.container-main {
+  margin: 0 2% 0 2%;
+}
 .navbar-brand {
   font-size: 150%;
 }
@@ -11,9 +18,12 @@ body, .navbar a, footer a {
   padding: 2% 8% 2% 2%;
 }
 
+#eri {
+  max-width: 78%;
+}
+
 #home-container{
   display: flex;
-  /* justify-content: center; */
 }
 
 #home-sub-container{
@@ -34,7 +44,7 @@ body, .navbar a, footer a {
 .navbar, footer {
   background-color: #8CA7F6;
   font-size: 130%;
-  height: 80px;
+  height: 70px;
   font-weight: bold;
   text-shadow: 1px 1px rgb(57, 95, 210);
 }
@@ -46,7 +56,7 @@ body, .navbar a, footer a {
 }
 
 .btn:hover, .btn:focus, .btn:active {
-  background-color: rgb(57, 95, 210);
+  background-color: rgb(57, 95, 210) !important;
 }
 
 a {
@@ -55,4 +65,44 @@ a {
 
 .alert {
   background-color: #6BCBBA;
+}
+
+footer{
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+}
+
+.icon-bar {
+  color: #f6ba8c !important;
+}
+
+@media (max-width: 450px) {
+
+  .navbar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+  }
+
+  footer{
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+  }
+
+  #home-container{
+    width: 100%
+  }
+
+  #home-sub-container {
+    display: none;
+  }
+
+  #eri {
+    max-width: 110%;
+  }
 }
